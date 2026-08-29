@@ -8,9 +8,9 @@ Este projeto foi desenvolvido com o objetivo de praticar meus conhecimentos em *
 
 A aplicação apresenta uma interface simples e moderna, onde é possível acessar diferentes redes sociais através de links.
 
-## 🖥️ Preview
+## 🖥️ Site hospedado no GITGUB
 
-![Preview do projeto](./preview.png)
+https://jedersonyago.github.io/Minhas-Redes-Sociais/
 
 ## ✨ Funcionalidades
 
@@ -34,4 +34,3 @@ Minhas-Redes-Sociais/
 ├── index.html
 ├── style.css
 ├── README.md
-└── preview.png
