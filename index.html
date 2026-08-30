@@ -5,17 +5,25 @@
 
     <meta charset="UTF-8">
 
-    <meta 
-        name="viewport" 
+    <meta
+        name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
     <title>Minhas Redes Sociais</title>
 
-    <link rel="stylesheet" href="style.css">
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 
     <!-- Font Awesome -->
-    <link 
+
+    <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     >
@@ -25,36 +33,71 @@
 
 <body>
 
-    <button id="theme-toggle">
+
+    <!-- =====================================
+         FUNDO DE PARTÍCULAS
+    ====================================== -->
+
+    <canvas id="particles"></canvas>
+
+
+    <!-- =====================================
+         BOTÃO DE TEMA
+    ====================================== -->
+
+    <button
+        id="theme-toggle"
+        aria-label="Alternar tema"
+    >
         🌙
     </button>
 
+
+    <!-- =====================================
+         CARD PRINCIPAL
+    ====================================== -->
+
     <main class="container">
 
-        <!-- PERFIL -->
+
+        <!-- =================================
+             PERFIL
+        ================================== -->
 
         <section class="perfil">
 
-            <img 
-                src="img/perfil.jpg" 
+
+            <img
+                src="img/perfil.jpg"
                 alt="Foto de perfil"
                 class="foto-perfil"
             >
 
-            <h1>Yago Rêgo</h1>
+
+            <h1>
+                Yago Rêgo
+            </h1>
+
 
             <p>
                 Desenvolvedor Front-end 🚀
             </p>
 
+
         </section>
 
 
-        <!-- REDES SOCIAIS -->
+
+        <!-- =================================
+             REDES SOCIAIS
+        ================================== -->
 
         <section class="redes">
 
-            <a 
+
+            <!-- INSTAGRAM -->
+
+            <a
                 href="https://www.instagram.com/yago.rego"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -63,14 +106,19 @@
 
                 <i class="fa-brands fa-instagram"></i>
 
-                <span>Instagram</span>
+                <span>
+                    Instagram
+                </span>
 
                 <i class="fa-solid fa-arrow-right"></i>
 
             </a>
 
 
-            <a 
+
+            <!-- FACEBOOK -->
+
+            <a
                 href="https://www.facebook.com/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -79,14 +127,19 @@
 
                 <i class="fa-brands fa-facebook"></i>
 
-                <span>Facebook</span>
+                <span>
+                    Facebook
+                </span>
 
                 <i class="fa-solid fa-arrow-right"></i>
 
             </a>
 
 
-            <a 
+
+            <!-- TWITTER / X -->
+
+            <a
                 href="https://x.com/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -95,14 +148,19 @@
 
                 <i class="fa-brands fa-x-twitter"></i>
 
-                <span>Twitter / X</span>
+                <span>
+                    Twitter / X
+                </span>
 
                 <i class="fa-solid fa-arrow-right"></i>
 
             </a>
 
 
-            <a 
+
+            <!-- WHATSAPP -->
+
+            <a
                 href="https://www.whatsapp.com/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -111,14 +169,19 @@
 
                 <i class="fa-brands fa-whatsapp"></i>
 
-                <span>WhatsApp</span>
+                <span>
+                    WhatsApp
+                </span>
 
                 <i class="fa-solid fa-arrow-right"></i>
 
             </a>
 
 
-            <a 
+
+            <!-- GITHUB -->
+
+            <a
                 href="https://github.com/JedersonYago"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -127,14 +190,19 @@
 
                 <i class="fa-brands fa-github"></i>
 
-                <span>GitHub</span>
+                <span>
+                    GitHub
+                </span>
 
                 <i class="fa-solid fa-arrow-right"></i>
 
             </a>
 
 
-            <a 
+
+            <!-- LINKEDIN -->
+
+            <a
                 href="https://www.linkedin.com/in/yago-rego/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -143,16 +211,22 @@
 
                 <i class="fa-brands fa-linkedin"></i>
 
-                <span>LinkedIn</span>
+                <span>
+                    LinkedIn
+                </span>
 
                 <i class="fa-solid fa-arrow-right"></i>
 
             </a>
 
+
         </section>
 
 
-        <!-- RODAPÉ -->
+
+        <!-- =================================
+             RODAPÉ
+        ================================== -->
 
         <footer>
 
@@ -162,9 +236,14 @@
 
         </footer>
 
+
     </main>
 
+
+    <!-- JAVASCRIPT -->
+
     <script src="script.js"></script>
+
 
 </body>
 
