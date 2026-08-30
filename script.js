@@ -3,9 +3,7 @@
 ========================================= */
 
 const themeToggle =
-    document.getElementById(
-        "theme-toggle"
-    );
+    document.getElementById("theme-toggle");
 
 
 themeToggle.addEventListener(
@@ -37,13 +35,11 @@ themeToggle.addEventListener(
 
 
 /* =========================================
-   PARTÍCULAS
+   CANVAS
 ========================================= */
 
 const canvas =
-    document.getElementById(
-        "particles"
-    );
+    document.getElementById("particles");
 
 
 const ctx =
@@ -64,36 +60,32 @@ let particles = [];
 const config = {
 
     /*
-       Quantidade de pontos.
+        Quantidade de partículas.
 
-       90 = mais elegante
-       130 = mais tecnológico
+        90 = leve e elegante
+        130 = mais cheio
     */
 
     particleCount: 90,
 
 
     /*
-       Distância máxima entre
-       duas partículas para criar
-       uma linha.
+        Distância máxima para
+        criar as linhas.
     */
 
     connectionDistance: 140,
 
 
     /*
-       Velocidade do movimento.
-
-       Deixei bem lento para
-       combinar com seu layout.
+        Velocidade normal.
     */
 
     speed: 0.22,
 
 
     /*
-       Tamanho dos pontos.
+        Tamanho das partículas.
     */
 
     minSize: 1,
@@ -102,17 +94,26 @@ const config = {
 
 
     /*
-       Área afetada pelo mouse.
+        Distância de influência
+        do mouse.
     */
 
-    mouseRadius: 150,
+    mouseRadius: 180,
 
 
     /*
-       Intensidade da interação.
+        Força com que as partículas
+        acompanham o mouse.
     */
 
-    mouseForce: 0.45
+    mouseForce: 0.015,
+
+
+    /*
+        Velocidade máxima.
+    */
+
+    maxSpeed: 0.8
 };
 
 
@@ -125,23 +126,70 @@ const mouse = {
 
     x: null,
 
-    y: null
+    y: null,
+
+    lastX: null,
+
+    lastY: null,
+
+    vx: 0,
+
+    vy: 0
 };
 
+
+
+/* =========================================
+   MOVIMENTO DO MOUSE
+========================================= */
 
 window.addEventListener(
     "mousemove",
     function (event) {
 
-        mouse.x =
+        const newX =
             event.clientX;
 
-        mouse.y =
+        const newY =
             event.clientY;
+
+
+        /*
+            Calcula quanto o mouse
+            se movimentou.
+        */
+
+        if (mouse.x !== null) {
+
+            mouse.vx =
+                newX - mouse.x;
+
+            mouse.vy =
+                newY - mouse.y;
+        }
+
+
+        mouse.lastX =
+            mouse.x;
+
+        mouse.lastY =
+            mouse.y;
+
+
+        mouse.x =
+            newX;
+
+        mouse.y =
+            newY;
 
     }
 );
 
+
+
+/* =========================================
+   MOUSE SAI DA TELA
+========================================= */
 
 window.addEventListener(
     "mouseleave",
@@ -150,6 +198,10 @@ window.addEventListener(
         mouse.x = null;
 
         mouse.y = null;
+
+        mouse.vx = 0;
+
+        mouse.vy = 0;
 
     }
 );
@@ -172,11 +224,15 @@ window.addEventListener(
         }
 
 
+        const touch =
+            event.touches[0];
+
+
         mouse.x =
-            event.touches[0].clientX;
+            touch.clientX;
 
         mouse.y =
-            event.touches[0].clientY;
+            touch.clientY;
 
     },
     {
@@ -192,6 +248,10 @@ window.addEventListener(
         mouse.x = null;
 
         mouse.y = null;
+
+        mouse.vx = 0;
+
+        mouse.vy = 0;
 
     }
 );
@@ -215,8 +275,14 @@ function resizeCanvas() {
 
 
     createParticles();
-
 }
+
+
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
 
 
 
@@ -247,6 +313,10 @@ function createParticles() {
                 height,
 
 
+            /*
+                Movimento aleatório.
+            */
+
             vx:
                 (
                     Math.random() -
@@ -274,7 +344,6 @@ function createParticles() {
         });
 
     }
-
 }
 
 
@@ -287,8 +356,9 @@ function updateParticle(
     particle
 ) {
 
+
     /*
-       Movimento normal
+        Movimento normal.
     */
 
     particle.x +=
@@ -299,10 +369,189 @@ function updateParticle(
 
 
 
+    /* =====================================
+       MOUSE
+    ====================================== */
+
+    if (
+        mouse.x !== null &&
+        mouse.y !== null
+    ) {
+
+        const dx =
+            mouse.x -
+            particle.x;
+
+
+        const dy =
+            mouse.y -
+            particle.y;
+
+
+        const distance =
+            Math.sqrt(
+                dx * dx +
+                dy * dy
+            );
+
+
+        /*
+            Só afeta partículas
+            próximas do cursor.
+        */
+
+        if (
+            distance <
+                config.mouseRadius &&
+            distance > 0
+        ) {
+
+
+            /*
+                Quanto mais perto,
+                maior a força.
+            */
+
+            const force =
+                (
+                    config.mouseRadius -
+                    distance
+                ) /
+                config.mouseRadius;
+
+
+            /*
+                Faz a partícula
+                acompanhar o mouse.
+            */
+
+            particle.vx +=
+                (
+                    dx /
+                    distance
+                ) *
+                force *
+                config.mouseForce;
+
+
+            particle.vy +=
+                (
+                    dy /
+                    distance
+                ) *
+                force *
+                config.mouseForce;
+
+
+            /*
+                Adiciona parte da
+                velocidade do mouse.
+            */
+
+            particle.vx +=
+                mouse.vx *
+                force *
+                0.002;
+
+
+            particle.vy +=
+                mouse.vy *
+                force *
+                0.002;
+
+        }
+
+    }
+
+
+
+    /* =====================================
+       LIMITAR VELOCIDADE
+    ====================================== */
+
+    const maxSpeed =
+        config.maxSpeed;
+
+
+    const currentSpeed =
+        Math.sqrt(
+            particle.vx *
+                particle.vx +
+            particle.vy *
+                particle.vy
+        );
+
+
+    if (
+        currentSpeed >
+        maxSpeed
+    ) {
+
+        particle.vx =
+            (
+                particle.vx /
+                currentSpeed
+            ) *
+            maxSpeed;
+
+
+        particle.vy =
+            (
+                particle.vy /
+                currentSpeed
+            ) *
+            maxSpeed;
+    }
+
+
+
+    /* =====================================
+       DESACELERAÇÃO
+    ====================================== */
+
+    particle.vx *= 0.995;
+
+    particle.vy *= 0.995;
+
+
+
     /*
-       Se sair da tela,
-       aparece do outro lado.
+        Se ficar muito lento,
+        recupera o movimento.
     */
+
+    if (
+        Math.abs(particle.vx) <
+        0.02
+    ) {
+
+        particle.vx +=
+            (
+                Math.random() -
+                0.5
+            ) *
+            0.01;
+    }
+
+
+    if (
+        Math.abs(particle.vy) <
+        0.02
+    ) {
+
+        particle.vy +=
+            (
+                Math.random() -
+                0.5
+            ) *
+            0.01;
+    }
+
+
+
+    /* =====================================
+       TELETRANSPORTE NAS BORDAS
+    ====================================== */
 
     if (
         particle.x < 0
@@ -337,74 +586,6 @@ function updateParticle(
         particle.y = 0;
     }
 
-
-
-    /* =====================================
-       INTERAÇÃO COM MOUSE
-    ====================================== */
-
-    if (
-        mouse.x !== null &&
-        mouse.y !== null
-    ) {
-
-        const dx =
-            particle.x -
-            mouse.x;
-
-
-        const dy =
-            particle.y -
-            mouse.y;
-
-
-        const distance =
-            Math.sqrt(
-                dx * dx +
-                dy * dy
-            );
-
-
-        if (
-            distance <
-                config.mouseRadius &&
-            distance > 0
-        ) {
-
-            const force =
-                (
-                    config.mouseRadius -
-                    distance
-                ) /
-                config.mouseRadius;
-
-
-            /*
-               Afasta levemente
-               a partícula do mouse.
-            */
-
-            particle.x +=
-                (
-                    dx /
-                    distance
-                ) *
-                force *
-                config.mouseForce;
-
-
-            particle.y +=
-                (
-                    dy /
-                    distance
-                ) *
-                force *
-                config.mouseForce;
-
-        }
-
-    }
-
 }
 
 
@@ -436,25 +617,25 @@ function drawParticle(
 
 
     /*
-       Lilás claro.
+        Cor das partículas.
 
-       Combina com o
-       fundo roxo.
+        Lilás claro para combinar
+        com seu fundo.
     */
 
     ctx.fillStyle =
-        "rgba(220, 210, 255, 0.75)";
+        "rgba(225, 215, 255, 0.80)";
 
 
     /*
-       Brilho suave.
+        Brilho.
     */
 
     ctx.shadowBlur = 8;
 
 
     ctx.shadowColor =
-        "rgba(200, 180, 255, 0.8)";
+        "rgba(210, 190, 255, 0.8)";
 
 
     ctx.fill();
@@ -467,10 +648,11 @@ function drawParticle(
 
 
 /* =========================================
-   LINHAS ENTRE PARTÍCULAS
+   DESENHAR CONEXÕES
 ========================================= */
 
 function drawConnections() {
+
 
     for (
         let i = 0;
@@ -510,9 +692,8 @@ function drawConnections() {
 
 
             /*
-               Só desenha a linha
-               quando os pontos estão
-               próximos.
+                Se estiverem próximas,
+                cria uma linha.
             */
 
             if (
@@ -522,8 +703,9 @@ function drawConnections() {
 
 
                 /*
-                   Quanto mais perto,
-                   mais visível.
+                    Linha fica mais
+                    transparente conforme
+                    aumenta a distância.
                 */
 
                 const opacity =
@@ -549,16 +731,12 @@ function drawConnections() {
                 );
 
 
-                /*
-                   Lilás transparente.
-                */
-
                 ctx.strokeStyle =
                     `rgba(
                         220,
                         205,
                         255,
-                        ${opacity * 0.22}
+                        ${opacity * 0.25}
                     )`;
 
 
@@ -579,14 +757,14 @@ function drawConnections() {
 
 
 /* =========================================
-   ANIMAÇÃO
+   ANIMAÇÃO PRINCIPAL
 ========================================= */
 
 function animate() {
 
 
     /*
-       Limpa o canvas.
+        Limpa o canvas.
     */
 
     ctx.clearRect(
@@ -598,7 +776,7 @@ function animate() {
 
 
     /*
-       Atualiza as partículas.
+        Atualiza partículas.
     */
 
     particles.forEach(
@@ -607,14 +785,14 @@ function animate() {
 
 
     /*
-       Desenha as linhas.
+        Desenha conexões.
     */
 
     drawConnections();
 
 
     /*
-       Desenha os pontos.
+        Desenha partículas.
     */
 
     particles.forEach(
@@ -623,7 +801,7 @@ function animate() {
 
 
     /*
-       Próximo frame.
+        Continua a animação.
     */
 
     requestAnimationFrame(
@@ -637,12 +815,6 @@ function animate() {
 /* =========================================
    INICIAR
 ========================================= */
-
-window.addEventListener(
-    "resize",
-    resizeCanvas
-);
-
 
 resizeCanvas();
 

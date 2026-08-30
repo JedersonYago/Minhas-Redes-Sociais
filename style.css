@@ -5,7 +5,6 @@
 * {
     margin: 0;
     padding: 0;
-
     box-sizing: border-box;
 }
 
@@ -18,9 +17,7 @@ body {
 
     min-height: 100vh;
 
-    font-family:
-        Arial,
-        sans-serif;
+    font-family: Arial, sans-serif;
 
     display: flex;
 
@@ -35,7 +32,9 @@ body {
     overflow-x: hidden;
 
 
-    /* Seu gradiente original */
+    /*
+        FUNDO ROXO / AZUL
+    */
 
     background:
         linear-gradient(
@@ -49,8 +48,7 @@ body {
     background-size: 300% 300%;
 
     animation:
-        backgroundMove
-        12s ease infinite;
+        backgroundMove 12s ease infinite;
 }
 
 
@@ -71,8 +69,8 @@ body {
     z-index: 0;
 
     /*
-       Importante:
-       permite clicar nos botões normalmente.
+        O canvas não impede
+        os cliques nos links.
     */
 
     pointer-events: none;
@@ -80,7 +78,7 @@ body {
 
 
 /* =========================================
-   CONTAINER / CARD
+   CONTAINER
 ========================================= */
 
 .container {
@@ -97,7 +95,7 @@ body {
 
 
     /*
-       Glassmorphism
+        Efeito Glassmorphism
     */
 
     background:
@@ -191,11 +189,8 @@ body {
 
 
     transition:
-        transform
-        0.4s ease,
-
-        box-shadow
-        0.4s ease;
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
 }
 
 
@@ -267,22 +262,16 @@ body {
 
     gap: 15px;
 
-
     padding:
         17px 20px;
 
-
     border-radius: 14px;
-
 
     text-decoration: none;
 
-
     color: #333;
 
-
     background: white;
-
 
     font-weight: bold;
 
@@ -300,13 +289,15 @@ body {
 
 
     transition:
-        all
-        0.3s ease;
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
 }
 
 
 /* =========================================
-   TEXTO DO LINK
+   TEXTO
 ========================================= */
 
 .link span {
@@ -318,7 +309,7 @@ body {
 
 
 /* =========================================
-   HOVER GERAL
+   HOVER
 ========================================= */
 
 .link:hover {
@@ -370,7 +361,7 @@ body {
 
 
 /* =========================================
-   TWITTER / X
+   TWITTER
 ========================================= */
 
 .twitter:hover {
@@ -445,29 +436,21 @@ footer {
 
     right: 20px;
 
-
     z-index: 10;
-
 
     width: 50px;
 
     height: 50px;
 
-
     border: none;
-
 
     border-radius: 50%;
 
-
     font-size: 22px;
-
 
     cursor: pointer;
 
-
     background: white;
-
 
     box-shadow:
         0 5px 15px
@@ -480,14 +463,9 @@ footer {
 
 
     transition:
-        transform
-        0.3s ease,
-
-        background
-        0.3s ease,
-
-        color
-        0.3s ease;
+        transform 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
 }
 
 
@@ -570,8 +548,6 @@ body.dark-mode {
 }
 
 
-/* CARD NO MODO ESCURO */
-
 body.dark-mode .container {
 
     background:
@@ -581,7 +557,6 @@ body.dark-mode .container {
             30,
             0.80
         );
-
 
     border-color:
         rgba(
@@ -593,8 +568,6 @@ body.dark-mode .container {
 }
 
 
-/* LINKS NO MODO ESCURO */
-
 body.dark-mode .link {
 
     background: #2a2a2a;
@@ -602,8 +575,6 @@ body.dark-mode .link {
     color: white;
 }
 
-
-/* BOTÃO NO MODO ESCURO */
 
 body.dark-mode #theme-toggle {
 
@@ -614,7 +585,7 @@ body.dark-mode #theme-toggle {
 
 
 /* =========================================
-   CELULAR
+   RESPONSIVIDADE
 ========================================= */
 
 @media (max-width: 500px) {
@@ -670,9 +641,7 @@ body.dark-mode #theme-toggle {
 
 
 /* =========================================
-   REDUZIR ANIMAÇÕES
-   Para usuários que preferem
-   menos movimento.
+   ACESSIBILIDADE
 ========================================= */
 
 @media (prefers-reduced-motion: reduce) {
